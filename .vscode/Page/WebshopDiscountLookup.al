@@ -1,29 +1,27 @@
-page 50106 "Webshop Order Discount"
+page 50107 "Webshop Discount Lookup"
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
     SourceTable = "Webshop Order Discount";
+    // Editable = false;
 
     layout
     {
         area(Content)
         {
-            repeater(GroupName)
+            repeater(Discounts)
             {
                 field("Discount Code No."; Rec."Discount Code No.")
                 {
-                    Caption = 'Discount Code No.';
                     ToolTip = 'Specifies the value of the Discount Code No. field.', Comment = '%';
                 }
                 field("Discount Code"; Rec."Discount Code")
                 {
-                    Caption = 'Discount Code';
                     ToolTip = 'Specifies the value of the Discount Code field.', Comment = '%';
                 }
                 field(Discount; Rec.Discount)
                 {
-                    Caption = 'Discount in %';
                     ToolTip = 'Specifies the value of the Discount field.', Comment = '%';
                 }
             }

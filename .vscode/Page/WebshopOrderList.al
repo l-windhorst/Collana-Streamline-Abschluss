@@ -43,15 +43,35 @@ page 50101 "Webshop Order List"
 
     actions
     {
-        area(Processing)
+        area(Navigation)
         {
-            action(ActionName)
+            action(Customers)
             {
-
-                trigger OnAction()
-                begin
-
-                end;
+                Caption = 'Customers';
+                // Promoted = true;
+                Image = Customer;
+                RunObject = Page "Customer List";
+            }
+            action(Vendor)
+            {
+                Caption = 'Vendors';
+                // Promoted = true;
+                Image = Vendor;
+                RunObject = Page "Vendor List";
+            }
+            action(Sales)
+            {
+                Caption = 'Sales Orders';
+                // Promoted = true;
+                Image = JobSalesInvoice;
+                RunObject = Page "Sales Order List";
+            }
+            action(Discounts)
+            {
+                Caption = 'Discounts';
+                // Promoted = true;
+                Image = Discount;
+                RunObject = Page "Webshop Order Discount";
             }
         }
     }

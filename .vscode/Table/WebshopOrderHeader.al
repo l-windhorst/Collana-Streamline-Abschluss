@@ -11,14 +11,38 @@ table 50100 "Webshop Order Header"
         field(2; "Customer No."; Code[20])
         {
             DataClassification = ToBeClassified;
+            TableRelation = "Customer";
+            trigger OnValidate()
+            var
+                CustomerInfo: Record "Customer";
+                SourceCodeSetup: Record "Source Code Setup";
+            begin
+                if "Customer No." <> '' then begin
+                    CustomerInfo.Get("Customer No.");
+                    "Customer No." := CustomerInfo."No.";
+                    Customer := CustomerInfo."Name";
+                    Rec.Address := CustomerInfo."Address";
+                    Rec."Address 2" := CustomerInfo."Address 2";
+                    Rec.City := CustomerInfo."City";
+                    Rec."Post Code" := CustomerInfo."Post Code";
+                    Rec.Country := CustomerInfo."Country/Region Code";
+                    Rec.Contact := CustomerInfo."Contact";
+                    Rec."E-Mail" := CustomerInfo."E-Mail";
+                    Rec.Birthday := CustomerInfo."Birthday";
+                    Rec."Order Date" := WorkDate();
+                    SourceCodeSetup.Get();
+                    Rec."Source Code" := SourceCodeSetup."Webshop Order Order No.";
+                end;
+            end;
         }
-        field(3; "Customer"; Text[100])
+        field(3; Customer; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
+
         }
         field(4; Address; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(5; "Address 2"; Text[100])
         {
@@ -71,10 +95,12 @@ table 50100 "Webshop Order Header"
         field(18; "Comment"; Text[255])
         {
             DataClassification = ToBeClassified;
+
         }
         field(19; "Source Code"; Code[20])
         {
             DataClassification = ToBeClassified;
+            Editable = false;
         }
         field(20; "Order No. for Sales"; Code[20])
         {
@@ -104,12 +130,13 @@ table 50100 "Webshop Order Header"
 
     trigger OnInsert()
     begin
-
+        GetWebOrderNos();
+        GetWebSalesOrderNos();
     end;
 
     trigger OnModify()
     begin
-
+        GetCommentValue();
     end;
 
     trigger OnDelete()
@@ -122,4 +149,36 @@ table 50100 "Webshop Order Header"
 
     end;
 
+    local procedure GetWebSalesOrderNos()
+    begin
+        if Rec."Order No. for Sales" = '' then begin
+            SalesSetup.Get();
+            SalesSetup.TestField("Webshop Order for Sales Nos.");
+            Rec."Order No. for Sales" := NoSeriesMgt.GetNextNo(SalesSetup."Webshop Order for Sales Nos.");
+        end;
+    end;
+
+    local procedure GetWebOrderNos()
+    var
+    begin
+        if "Order No." = '' then begin
+            SalesSetup.Get();
+            SalesSetup.TestField("Webshop Order Nos.");
+            "Order No." := NoSeriesMgt.GetNextNo(SalesSetup."Webshop Order Nos.");
+        end;
+    end;
+
+    local procedure GetCommentValue()
+    begin
+        if Rec.Comment <> '' then
+            Rec."Comment Available" := true
+        else
+            Rec."Comment Available" := false;
+
+    end;
+
+    var
+        NoSeriesMgt: Codeunit "No. Series";
+        SalesSetup: Record "Sales & Receivables Setup";
+        NoSeries: Record "No. Series";
 }

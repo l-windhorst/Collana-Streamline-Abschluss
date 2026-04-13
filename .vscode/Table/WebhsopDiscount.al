@@ -4,11 +4,11 @@ table 50104 "Webshop Order Discount"
 
     fields
     {
-        field(1; "Discount Code No."; Code[20])
+        field(1; "Discount Code No."; Code[20]) //Reine Nummernserie Inten
         {
             DataClassification = ToBeClassified;
         }
-        field(2; "Discount Code"; Code[20])
+        field(2; "Discount Code"; Code[20])//Lookup für anzeige
         {
             DataClassification = ToBeClassified;
         }
@@ -35,9 +35,23 @@ table 50104 "Webshop Order Discount"
     var
         myInt: Integer;
 
+    local procedure GetNextDiscountNos()
+    var
+        SalesSetup: Record "Sales & Receivables Setup";
+        NoSeriesMgt: Codeunit "No. Series";
+
+    begin
+        if Rec."Discount Code No." = '' then begin
+            SalesSetup.Get();
+            SalesSetup.TestField("Discount Nos.");
+            "Discount Code No." := NoSeriesMgt.GetNextNo(SalesSetup."Discount Nos.");
+        end;
+
+    end;
+
     trigger OnInsert()
     begin
-
+        GetNextDiscountNos();
     end;
 
     trigger OnModify()

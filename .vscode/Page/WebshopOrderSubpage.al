@@ -50,9 +50,19 @@ page 50102 "Webshop Order Subpage"
                 field("Discount Code"; Rec."Discount Code")
                 {
                     ToolTip = 'Specifies the value of the Discount Code field.', Comment = '%';
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        Discount: Record "Webshop Order Discount";
+                    begin
+                        if Page.RunModal(Page::"Webshop Discount Lookup", Discount) = Action::LookupOK then begin
+                            Rec.Validate("Discount Code", Discount."Discount Code");
+                            Rec.Validate(Discount, Discount.Discount);
+                        end;
+                    end;
                 }
                 field(Discount; Rec.Discount)
                 {
+                    Caption = 'Discount in %';
                     ToolTip = 'Specifies the value of the Discount field.', Comment = '%';
                 }
                 field("Price After Discount"; Rec."Price After Discount")
@@ -60,22 +70,34 @@ page 50102 "Webshop Order Subpage"
                     ToolTip = 'Specifies the value of the Price After Discount field.', Comment = '%';
                 }
             }
+            field("Total Price"; Rec."Total Price")
+            {
+                ToolTip = 'Specifies the value of the Total Price field.', Comment = '%';
+            }
         }
-
     }
 
     actions
     {
         area(Processing)
         {
-            action(ActionName)
+            action(Items)
             {
-
-                trigger OnAction()
-                begin
-
-                end;
+                RunObject = Page "Item List";
+                Image = Item;
             }
         }
     }
+    trigger OnAfterGetCurrRecord()//generell das bekommen des letzen Wertes in Total Price
+                                  //löst aus immer wenn was Validiert wird
+    begin
+        Rec.CalculateTotalPrice();
+        Rec.GetTotalAmount();
+    end;
+
+    trigger OnAfterGetRecord()//erhöhung des Preises basierend auf die Lines und deren Preise
+    begin
+        Rec.CalculateTotalPrice();
+        Rec.GetTotalAmount();
+    end;
 }

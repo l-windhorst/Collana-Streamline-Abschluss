@@ -10,7 +10,7 @@ page 50100 "Webshop Order Card"
     {
         area(Content)
         {
-            group(GroupName)
+            group(General)
             {
                 field("Order No. for Sales"; Rec."Order No. for Sales")
                 {
@@ -23,10 +23,12 @@ page 50100 "Webshop Order Card"
                 field("Customer No."; Rec."Customer No.")
                 {
                     ToolTip = 'Specifies the value of the Customer No. field.', Comment = '%';
+                    Importance = Promoted;
                 }
                 field(Customer; Rec.Customer)
                 {
                     ToolTip = 'Specifies the value of the Customer field.', Comment = '%';
+                    Importance = Promoted;
                 }
                 field(Address; Rec.Address)
                 {
@@ -43,6 +45,7 @@ page 50100 "Webshop Order Card"
                 field("Post Code"; Rec."Post Code")
                 {
                     ToolTip = 'Specifies the value of the Post Code field.', Comment = '%';
+                    Importance = Promoted;
                 }
                 field(Country; Rec.Country)
                 {
@@ -63,6 +66,7 @@ page 50100 "Webshop Order Card"
                 field(Birthday; Rec.Birthday)
                 {
                     ToolTip = 'Specifies the value of the Birthday field.', Comment = '%';
+                    Importance = Additional;
                 }
                 field("Overall Amount"; Rec."Overall Amount")
                 {
@@ -82,11 +86,13 @@ page 50100 "Webshop Order Card"
                 }
                 field(Comment; Rec.Comment)
                 {
+                    MultiLine = true;
                     ToolTip = 'Specifies the value of the Comment field.', Comment = '%';
                 }
                 field("Source Code"; Rec."Source Code")
                 {
                     ToolTip = 'Specifies the value of the Source Code field.', Comment = '%';
+                    Importance = Additional;
                 }
             }
             part("Webshop Order Subpage"; "Webshop Order Subpage")
@@ -97,24 +103,60 @@ page 50100 "Webshop Order Card"
                 ToolTip = 'Displays the details of the order lines associated with the order.', Comment = '%';
             }
         }
-        // area(Factboxes)
-        // {
-
-        // }
     }
+
 
     actions
     {
-        area(Processing)
+        area(Navigation)
         {
-            action(ActionName)
+            action(Customers)
             {
+                RunObject = Page "Customer List";
+                Image = Customer;
+                Caption = 'Customers';
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action(Vendor)
+            {
+                RunObject = Page "Vendor List";
+                Image = Vendor;
+                Caption = 'Vendors';
+                Promoted = true;
+                PromotedCategory = Process;
+
+            }
+            action(Discounts)
+            {
+                RunObject = Page "Webshop Order Discount";
+                Image = Discount;
+                Caption = 'Discounts';
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action(Sales)
+            {
+                RunObject = Page "Sales Order List";
+                Image = JobSalesInvoice;
+                Caption = 'Sales Orders';
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+
+            action(CreateSalesOrder)
+            {
+                Caption = 'Create Sales Order';
+                Image = NewDocument;
+                Promoted = true;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 begin
-
+                    //CreateSalesOrder procedure
                 end;
             }
+
         }
     }
 }
