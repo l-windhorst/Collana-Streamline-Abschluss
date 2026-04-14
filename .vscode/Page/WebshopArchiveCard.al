@@ -10,7 +10,7 @@ page 50103 "Webshop Order Archive Card"
     {
         area(Content)
         {
-            group(GroupName)
+            group(General)
             {
                 field("Order No. for Sales"; Rec."Order No. for Sales")
                 {
@@ -47,6 +47,10 @@ page 50103 "Webshop Order Archive Card"
                 field(Country; Rec.Country)
                 {
                     ToolTip = 'Specifies the value of the Country field.', Comment = '%';
+                }
+                field("Contact Code"; Rec."Contact Code")
+                {
+                    ToolTip = 'Specifies the value of the Contact Code field.', Comment = '%';
                 }
                 field(Contact; Rec.Contact)
                 {
@@ -107,15 +111,42 @@ page 50103 "Webshop Order Archive Card"
 
     actions
     {
-        area(Processing)
+        area(Creation)
         {
-            action(ActionName)
+            action("Webshop Orders")
             {
-
-                trigger OnAction()
-                begin
-
-                end;
+                RunObject = Page "Webshop Order List";
+                Image = List;
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action(Customers)
+            {
+                RunObject = page "Customer List";
+                Image = Customer;
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action(Vendor)
+            {
+                RunObject = page "Vendor List";
+                Image = Vendor;
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action(Discount)
+            {
+                RunObject = page "Webshop Order Discount";
+                Image = Discount;
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action("Sales Orders")
+            {
+                RunObject = page "Sales Order List";
+                Image = JobSalesInvoice;
+                Promoted = true;
+                PromotedCategory = Process;
             }
         }
     }

@@ -48,28 +48,32 @@ page 50101 "Webshop Order List"
             action(Customers)
             {
                 Caption = 'Customers';
-                // Promoted = true;
+                Promoted = true;
+                PromotedCategory = Process;
                 Image = Customer;
                 RunObject = Page "Customer List";
             }
             action(Vendor)
             {
                 Caption = 'Vendors';
-                // Promoted = true;
+                Promoted = true;
+                PromotedCategory = Process;
                 Image = Vendor;
                 RunObject = Page "Vendor List";
             }
             action(Sales)
             {
                 Caption = 'Sales Orders';
-                // Promoted = true;
+                Promoted = true;
+                PromotedCategory = Process;
                 Image = JobSalesInvoice;
                 RunObject = Page "Sales Order List";
             }
             action(Discounts)
             {
                 Caption = 'Discounts';
-                // Promoted = true;
+                Promoted = true;
+                PromotedCategory = Process;
                 Image = Discount;
                 RunObject = Page "Webshop Order Discount";
             }

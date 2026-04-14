@@ -16,6 +16,7 @@ table 50100 "Webshop Order Header"
             var
                 CustomerInfo: Record "Customer";
                 SourceCodeSetup: Record "Source Code Setup";
+
             begin
                 if "Customer No." <> '' then begin
                     CustomerInfo.Get("Customer No.");
@@ -26,6 +27,7 @@ table 50100 "Webshop Order Header"
                     Rec.City := CustomerInfo."City";
                     Rec."Post Code" := CustomerInfo."Post Code";
                     Rec.Country := CustomerInfo."Country/Region Code";
+                    Rec."Contact Code" := CustomerInfo."Primary Contact No.";
                     Rec.Contact := CustomerInfo."Contact";
                     Rec."E-Mail" := CustomerInfo."E-Mail";
                     Rec.Birthday := CustomerInfo."Birthday";
@@ -87,6 +89,10 @@ table 50100 "Webshop Order Header"
         field(16; "Status"; Enum "Webshop Status Enum")
         {
             DataClassification = ToBeClassified;
+            // trigger OnValidate()
+            // begin
+            //     CheckStatus()
+            // end;
         }
         field(17; "Payment Method"; Text[50])
         {
@@ -107,6 +113,10 @@ table 50100 "Webshop Order Header"
             DataClassification = ToBeClassified;
         }
         field(21; "Comment Available"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(22; "Contact Code"; Code[20])//Wenn contact ausgewählt Lookup
         {
             DataClassification = ToBeClassified;
         }
@@ -174,11 +184,18 @@ table 50100 "Webshop Order Header"
             Rec."Comment Available" := true
         else
             Rec."Comment Available" := false;
+    end;
 
+    procedure CheckStatus()
+    begin
+        if Rec.Status = Rec.Status::"Order Completed" then
+            if not Confirm(Text001, false) then
+                Rec.Status := xRec.Status;
     end;
 
     var
         NoSeriesMgt: Codeunit "No. Series";
         SalesSetup: Record "Sales & Receivables Setup";
         NoSeries: Record "No. Series";
+        Text001: Label 'Did you check that the Information in Order are correct?';
 }

@@ -51,6 +51,21 @@ page 50100 "Webshop Order Card"
                 {
                     ToolTip = 'Specifies the value of the Country field.', Comment = '%';
                 }
+                field("Contact Code"; Rec."Contact Code")
+                {
+                    ToolTip = 'Specifies the value of the Contact Code field.', Comment = '%';
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        Contact: Record Contact;
+                    begin
+                        Contact.SetRange("Company Name", Rec.Customer);
+                        if Page.RunModal(Page::"Contact List", Contact) = Action::LookupOK then begin
+                            Rec.Validate("Contact Code", Contact."No.");
+                            Rec.Validate(Contact, Contact.Name);
+                        end;
+
+                    end;
+                }
                 field(Contact; Rec.Contact)
                 {
                     ToolTip = 'Specifies the value of the Contact field.', Comment = '%';
@@ -79,6 +94,14 @@ page 50100 "Webshop Order Card"
                 field(Status; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Status field.', Comment = '%';
+                    trigger OnValidate()
+                    var
+
+                    begin
+                        Rec.CheckStatus();
+                        // CurrPage.Update();
+                        // Message('Status has been updated to %1', Rec.Status);
+                    end;
                 }
                 field("Payment Method"; Rec."Payment Method")
                 {
@@ -150,6 +173,7 @@ page 50100 "Webshop Order Card"
                 Image = NewDocument;
                 Promoted = true;
                 PromotedCategory = Process;
+                RunObject = Codeunit "Webshop Confirm Post Yes No";
 
                 trigger OnAction()
                 begin

@@ -11,7 +11,7 @@ page 50105 "Webshop Order Archive List"
     {
         area(Content)
         {
-            repeater(GroupName)
+            repeater(General)
             {
                 field("Order No."; Rec."Order No.")
                 {
@@ -47,15 +47,42 @@ page 50105 "Webshop Order Archive List"
 
     actions
     {
-        area(Processing)
+        area(Creation)
         {
-            action(ActionName)
+            action("Webshop Orders")
             {
-
-                trigger OnAction()
-                begin
-
-                end;
+                RunObject = Page "Webshop Order List";
+                Image = List;
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action(Customers)
+            {
+                RunObject = page "Customer List";
+                Image = Customer;
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action(Vendor)
+            {
+                RunObject = page "Vendor List";
+                Image = Vendor;
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action(Discount)
+            {
+                RunObject = page "Webshop Order Discount";
+                Image = Discount;
+                Promoted = true;
+                PromotedCategory = Process;
+            }
+            action("Sales Orders")
+            {
+                RunObject = page "Sales Order List";
+                Image = JobSalesInvoice;
+                Promoted = true;
+                PromotedCategory = Process;
             }
         }
     }

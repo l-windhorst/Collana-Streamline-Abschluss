@@ -84,6 +84,10 @@ table 50102 "Webshop Archive Header"
         {
             DataClassification = ToBeClassified;
         }
+        field(22; "Contact Code"; Code[20])//Wenn contact ausgewählt Lookup
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

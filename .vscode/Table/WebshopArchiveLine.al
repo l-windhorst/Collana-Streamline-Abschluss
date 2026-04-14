@@ -44,7 +44,7 @@ table 50103 "Webshop Archive Line"
         {
             DataClassification = ToBeClassified;
         }
-        field(11; Discount; Decimal)
+        field(11; Discount; Integer)
         {
             DataClassification = ToBeClassified;
         }
