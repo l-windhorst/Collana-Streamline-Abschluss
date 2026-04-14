@@ -147,6 +147,7 @@ table 50100 "Webshop Order Header"
     trigger OnModify()
     begin
         GetCommentValue();
+        CheckOrderHeader();
     end;
 
     trigger OnDelete()
@@ -193,9 +194,36 @@ table 50100 "Webshop Order Header"
                 Rec.Status := xRec.Status;
     end;
 
+    local procedure CheckOrderHeader()
+    var
+        IsChanged: Boolean;
+    begin
+        if Rec.Status = Rec.Status::"Order Completed" then begin
+            if Rec."Customer No." <> xRec."Customer No." then begin
+                Rec.Status := Rec.Status::"in Process";
+                Rec.Modify();
+                IsChanged := true;
+            end;
+            if Rec.Customer <> xRec.Customer then begin
+                Rec.Status := Rec.Status::"in Process";
+                Rec.Modify();
+                IsChanged := true;
+            end;
+            if Rec.Address <> xRec.Address then begin
+                Rec.Status := Rec.Status::"in Process";
+                Rec.Modify();
+                IsChanged := true;
+            end;
+        end;
+
+        if IsChanged = true then
+            Message(Text002);
+    end;
+
     var
         NoSeriesMgt: Codeunit "No. Series";
         SalesSetup: Record "Sales & Receivables Setup";
         NoSeries: Record "No. Series";
         Text001: Label 'Did you check that the Information in Order are correct?';
+        Text002: Label 'You´ve changed the Order the Order Status is now "In Process".';
 }

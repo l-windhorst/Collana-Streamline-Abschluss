@@ -107,6 +107,7 @@ table 50101 "Webshop Order Line"
     var
         ItemInfo: Record "Item";
         Discount: Record "Webshop Order Discount";
+        Text001: Label 'You´ve changed the the Order Line. The Order Status is now "In Process".';
 
     local procedure GetNextLineNo(): Integer
     var
@@ -212,7 +213,37 @@ table 50101 "Webshop Order Line"
         end;
     end;
 
-
+    local procedure CheckOrderLine()
+    var
+        OrderHeader: Record "Webshop Order Header";
+        IsChanged: Boolean;
+    begin
+        OrderHeader.Get(Rec."Order No.");
+        if OrderHeader.Status = OrderHeader.Status::"Order Completed" then begin
+            if Rec.Quantity <> xRec.Quantity then begin
+                OrderHeader.Status := OrderHeader.Status::"in Process";
+                OrderHeader.Modify();
+                IsChanged := true;
+            end;
+            if Rec."Item Name" <> xRec."Item Name" then begin
+                OrderHeader.Status := OrderHeader.Status::"in Process";
+                OrderHeader.Modify();
+                IsChanged := true;
+            end;
+            if Rec."Discount Code" <> xRec."Discount Code" then begin
+                OrderHeader.Status := OrderHeader.Status::"in Process";
+                OrderHeader.Modify();
+                IsChanged := true;
+            end;
+            if Rec."Discount Code" <> xRec."Discount Code" then begin
+                OrderHeader.Status := OrderHeader.Status::"in Process";
+                OrderHeader.Modify();
+                IsChanged := true;
+            end;
+        end;
+        if IsChanged = true then
+            Message(Text001);
+    end;
 
     trigger OnInsert()
     begin
@@ -223,6 +254,7 @@ table 50101 "Webshop Order Line"
     trigger OnModify()
     begin
         CalculatePriceAfterDiscount();
+        CheckOrderLine();
 
 
     end;
