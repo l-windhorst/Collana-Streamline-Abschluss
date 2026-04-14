@@ -17,9 +17,10 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
         SalesHeader."Document Type" := SalesHeader."Document Type"::Order;
         SalesHeader."No." := OrderHeader."Order No. for Sales";
         SalesHeader."Sell-to Customer No." := OrderHeader."Customer No.";
-        SalesHeader."Bill-to Customer No." := OrderHeader.Customer;
-        SalesHeader."Ship-to Name" := OrderHeader.Customer;
-        SalesHeader."Sell-to Customer Name" := OrderHeader.Customer;
+        SalesHeader.Validate("Sell-to Customer Name", OrderHeader.Customer);
+        // SalesHeader."Bill-to Customer No." := OrderHeader.Customer;
+        // SalesHeader."Ship-to Name" := OrderHeader.Customer;
+        // SalesHeader."Sell-to Customer Name" := OrderHeader.Customer;
         SalesHeader."Bill-to Address" := OrderHeader.Address;
         SalesHeader."Ship-to Address" := OrderHeader.Address;
         SalesHeader."Sell-to Address" := OrderHeader.Address;
@@ -50,12 +51,11 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
         SalesHeader."Prepayment Due Date" := OrderHeader."Order Date";
         SalesHeader."VAT Reporting Date" := OrderHeader."Order Date";
         SalesHeader."Sell-to E-Mail" := OrderHeader."E-Mail";
+        Rec."Sales Order Created" := true;
         SalesHeader.Insert();
         OrderLine.LockTable();
         OrderLine.Reset();
         OrderLine.SetRange("Order No.", OrderHeader."Order No.");
-        if OrderLine.IsEmpty() then
-            Error('No order lines found for order %1', OrderHeader."Order No.");
         if OrderLine.FindSet() then
             repeat
                 SalesLine."Document No." := SalesHeader."No.";
@@ -66,6 +66,12 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
                 SalesLine.Type := SalesLine.Type::Item;
                 SalesLine."No." := OrderLine."Item Name";
                 SalesLine.Description := OrderLine."Item Description";
+                CustomerInfo.Get(Rec."Customer No.");
+                SalesLine."Gen. Bus. Posting Group" := CustomerInfo."Gen. Bus. Posting Group";
+                SalesLine."VAT Bus. Posting Group" := CustomerInfo."VAT Bus. Posting Group";
+                SalesLine."Gen. Prod. Posting Group" := ItemInfo."Gen. Prod. Posting Group";
+                SalesLine."VAT Prod. Posting Group" := ItemInfo."VAT Prod. Posting Group";
+                SalesLine."Unit of Measure Code" := ItemInfo."Base Unit of Measure";
                 SalesLine."Unit of Measure" := ItemInfo."Base Unit of Measure";
                 SalesLine."Unit Price" := OrderLine."Unit Price";
                 SalesLine.Validate(Quantity, OrderLine.Quantity);
@@ -73,13 +79,10 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
                 SalesLine.Insert();
             until OrderLine.Next() = 0;
         Window.Update(1, 'The Sales Order was created successfully.');
-
         Window.Close();
+        Rec.Delete();//verweist auf OnDelete in Table wird sonst nicht ausgefühert
         OpenSalesOrder();
-
-        //You want to open it now feld
     end;
-
 
     var
         Test: Code[20];

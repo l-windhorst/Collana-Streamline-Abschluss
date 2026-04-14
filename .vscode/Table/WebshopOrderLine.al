@@ -108,6 +108,7 @@ table 50101 "Webshop Order Line"
         ItemInfo: Record "Item";
         Discount: Record "Webshop Order Discount";
         Text001: Label 'You´ve changed the the Order Line. The Order Status is now "In Process".';
+        Text002: Label 'You can´t complete the Order because one line is missing quantity';
 
     local procedure GetNextLineNo(): Integer
     var
@@ -213,6 +214,8 @@ table 50101 "Webshop Order Line"
         end;
     end;
 
+
+
     local procedure CheckOrderLine()
     var
         OrderHeader: Record "Webshop Order Header";
@@ -255,8 +258,6 @@ table 50101 "Webshop Order Line"
     begin
         CalculatePriceAfterDiscount();
         CheckOrderLine();
-
-
     end;
 
     trigger OnDelete()

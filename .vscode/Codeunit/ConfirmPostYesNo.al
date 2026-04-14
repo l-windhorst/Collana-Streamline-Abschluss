@@ -6,8 +6,8 @@ codeunit 50101 "Webshop Confirm Post Yes No"
         OrderHeader.Copy(Rec);
         if Confirm(Text001, true) then begin
             CheckStatus();
-            CreateSalesOrder.Run(OrderHeader);//OrderHeader in kalmmer hat zu tun mit der TableNo in der Codeunit
             CreateArchive.Run(OrderHeader);
+            CreateSalesOrder.Run(OrderHeader);//OrderHeader in kalmmer hat zu tun mit der TableNo in der Codeunit
             Commit();
         end;
     end;

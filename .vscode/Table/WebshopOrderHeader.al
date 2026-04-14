@@ -89,10 +89,6 @@ table 50100 "Webshop Order Header"
         field(16; "Status"; Enum "Webshop Status Enum")
         {
             DataClassification = ToBeClassified;
-            // trigger OnValidate()
-            // begin
-            //     CheckStatus()
-            // end;
         }
         field(17; "Payment Method"; Text[50])
         {
@@ -117,6 +113,10 @@ table 50100 "Webshop Order Header"
             DataClassification = ToBeClassified;
         }
         field(22; "Contact Code"; Code[20])//Wenn contact ausgewählt Lookup
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(23; "Sales Order Created"; Boolean)
         {
             DataClassification = ToBeClassified;
         }
@@ -152,7 +152,7 @@ table 50100 "Webshop Order Header"
 
     trigger OnDelete()
     begin
-
+        DeleteOrder()
     end;
 
     trigger OnRename()
@@ -188,10 +188,22 @@ table 50100 "Webshop Order Header"
     end;
 
     procedure CheckStatus()
+    var
+        OrderLine: Record "Webshop Order Line";
     begin
-        if Rec.Status = Rec.Status::"Order Completed" then
-            if not Confirm(Text001, false) then
+        if Rec.Status = Rec.Status::"Order Completed" then begin
+            OrderLine.Reset();
+            OrderLine.SetRange("Order No.", Rec."Order No.");
+            OrderLine.SetRange(Quantity, 0);
+            if OrderLine.FindFirst then
+                repeat
+                    if OrderLine.Quantity = 0 then
+                        Error(Text003);
+                until OrderLIne.Next() = 0;
+            if not Confirm(Text001, false) then begin
                 Rec.Status := xRec.Status;
+            end;
+        end;
     end;
 
     local procedure CheckOrderHeader()
@@ -220,10 +232,25 @@ table 50100 "Webshop Order Header"
             Message(Text002);
     end;
 
+    local procedure DeleteOrder()
+    var
+    begin
+        if Rec.Status <> Rec.Status::"Order Completed" then
+            exit
+        else begin
+            Rec.SetRange(Status, Rec.Status::"Order Completed");
+            Rec.SetRange("Sales Order Created", true);
+            DeleteAll();
+        end;
+    end;
+
+
+
     var
         NoSeriesMgt: Codeunit "No. Series";
         SalesSetup: Record "Sales & Receivables Setup";
         NoSeries: Record "No. Series";
         Text001: Label 'Did you check that the Information in Order are correct?';
         Text002: Label 'You´ve changed the Order the Order Status is now "In Process".';
+        Text003: Label 'You can´t complete the Order because one line is missing quantity';
 }
