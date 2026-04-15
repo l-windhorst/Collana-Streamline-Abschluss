@@ -61,12 +61,12 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
                 SalesLine."Document No." := SalesHeader."No.";
                 SalesLine."Document Type" := SalesLine."Document Type"::Order;
                 ItemInfo.Get(OrderLine."Item Name");
+                CustomerInfo.Get(Rec."Customer No.");
                 // SalesLine."Document No." := OrderHeader."Order No. for Sales";
                 SalesLine."Line No." := OrderLine."Line No.";
                 SalesLine.Type := SalesLine.Type::Item;
                 SalesLine."No." := OrderLine."Item Name";
                 SalesLine.Description := OrderLine."Item Description";
-                CustomerInfo.Get(Rec."Customer No.");
                 SalesLine."Gen. Bus. Posting Group" := CustomerInfo."Gen. Bus. Posting Group";
                 SalesLine."VAT Bus. Posting Group" := CustomerInfo."VAT Bus. Posting Group";
                 SalesLine."Gen. Prod. Posting Group" := ItemInfo."Gen. Prod. Posting Group";

@@ -6,17 +6,16 @@ table 50100 "Webshop Order Header"
     {
         field(1; "Order No."; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
         }
         field(2; "Customer No."; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             TableRelation = "Customer";
             trigger OnValidate()
             var
                 CustomerInfo: Record "Customer";
                 SourceCodeSetup: Record "Source Code Setup";
-
             begin
                 if "Customer No." <> '' then begin
                     CustomerInfo.Get("Customer No.");
@@ -39,12 +38,12 @@ table 50100 "Webshop Order Header"
         }
         field(3; Customer; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
 
         }
         field(4; Address; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(5; "Address 2"; Text[100])
         {
@@ -88,7 +87,7 @@ table 50100 "Webshop Order Header"
         }
         field(16; "Status"; Enum "Webshop Status Enum")
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
         }
         field(17; "Payment Method"; Text[50])
         {
@@ -101,7 +100,7 @@ table 50100 "Webshop Order Header"
         }
         field(19; "Source Code"; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             Editable = false;
         }
         field(20; "Order No. for Sales"; Code[20])

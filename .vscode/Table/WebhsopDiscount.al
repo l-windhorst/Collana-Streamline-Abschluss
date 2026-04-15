@@ -26,47 +26,20 @@ table 50104 "Webshop Order Discount"
             Clustered = true;
         }
     }
-
-    fieldgroups
-    {
-        // Add changes to field groups here
-    }
-
-    var
-        myInt: Integer;
-
     local procedure GetNextDiscountNos()
     var
         SalesSetup: Record "Sales & Receivables Setup";
         NoSeriesMgt: Codeunit "No. Series";
-
     begin
         if Rec."Discount Code No." = '' then begin
             SalesSetup.Get();
             SalesSetup.TestField("Discount Nos.");
             "Discount Code No." := NoSeriesMgt.GetNextNo(SalesSetup."Discount Nos.");
         end;
-
     end;
 
     trigger OnInsert()
     begin
         GetNextDiscountNos();
     end;
-
-    trigger OnModify()
-    begin
-
-    end;
-
-    trigger OnDelete()
-    begin
-
-    end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
 }
