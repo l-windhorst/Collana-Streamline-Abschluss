@@ -1,6 +1,6 @@
 table 50100 "Webshop Order Header"
 {
-    DataClassification = ToBeClassified;
+    DataClassification = CustomerContent;
 
     fields
     {
@@ -10,7 +10,7 @@ table 50100 "Webshop Order Header"
         }
         field(2; "Customer No."; Code[20])
         {
-            DataClassification = SystemMetadata;
+            DataClassification = CustomerContent;
             TableRelation = "Customer";
             trigger OnValidate()
             var
@@ -38,52 +38,52 @@ table 50100 "Webshop Order Header"
         }
         field(3; Customer; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
 
         }
         field(4; Address; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(5; "Address 2"; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(7; City; Text[50])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(8; "Post Code"; Text[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(9; Country; Text[50])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(10; Contact; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(11; "Order Date"; Date)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
         }
         field(12; "E-Mail"; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(13; Birthday; Date)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(14; "Overall Amount"; Integer)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(15; "Total Price"; Decimal)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(16; "Status"; Enum "Webshop Status Enum")
         {
@@ -91,11 +91,11 @@ table 50100 "Webshop Order Header"
         }
         field(17; "Payment Method"; Text[50])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
         }
         field(18; "Comment"; Text[255])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
 
         }
         field(19; "Source Code"; Code[20])
@@ -105,19 +105,19 @@ table 50100 "Webshop Order Header"
         }
         field(20; "Order No. for Sales"; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
         }
         field(21; "Comment Available"; Boolean)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(22; "Contact Code"; Code[20])//Wenn contact ausgewählt Lookup
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(23; "Sales Order Created"; Boolean)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
         }
     }
 

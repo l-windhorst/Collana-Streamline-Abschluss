@@ -4,7 +4,7 @@ tableextension 50103 "Webshop Vendor Name" extends Item
     {
         field(50100; "Vendor Name"; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
 
         }
     }

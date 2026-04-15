@@ -6,18 +6,18 @@ table 50101 "Webshop Order Line"
     {
         field(1; "Order No."; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             Editable = false;
         }
         field(2; "Line No."; Integer)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             Editable = false;
 
         }
         field(3; "Item Name"; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
             TableRelation = "Item";
             trigger OnValidate()
 
@@ -36,17 +36,17 @@ table 50101 "Webshop Order Line"
         }
         field(4; "Item Description"; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(5; "Unit Price"; Decimal)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             Editable = false;
         }
         field(6; Quantity; Integer)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
             MinValue = 0;
 
             trigger OnValidate()
@@ -56,36 +56,36 @@ table 50101 "Webshop Order Line"
         }
         field(7; "In Stock"; Boolean)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             Editable = false;
         }
         field(8; Vendor; Text[100])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(9; Price; Decimal)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(10; "Discount Code"; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
         field(11; Discount; Integer)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
 
         }
         field(12; "Price After Discount"; Decimal)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
             Editable = false;
         }
         field(14; "Total Price"; Decimal)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             Editable = false;
 
         }
