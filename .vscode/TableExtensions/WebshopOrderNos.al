@@ -4,17 +4,17 @@ tableextension 50102 "Webshop Order Nos." extends "Sales & Receivables Setup" //
     {
         field(50100; "Discount Nos."; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             TableRelation = "No. Series";
         }
         field(50101; "Webshop Order Nos."; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             TableRelation = "No. Series";
         }
         field(50102; "Webshop Order for Sales Nos."; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             TableRelation = "No. Series";
         }
     }

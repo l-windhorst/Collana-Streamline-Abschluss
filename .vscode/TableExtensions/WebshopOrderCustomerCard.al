@@ -4,7 +4,7 @@ tableextension 50100 "Webshop Customer Card" extends "Customer"
     {
         field(50100; "Birthday"; Date)
         {
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
     }
 }

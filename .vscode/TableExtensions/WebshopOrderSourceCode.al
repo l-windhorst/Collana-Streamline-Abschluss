@@ -4,7 +4,7 @@ tableextension 50104 "Webshop Order Source Code" extends "Source Code Setup"
     {
         field(50104; "Webshop Order Order No."; Code[20])
         {
-            DataClassification = ToBeClassified;
+            DataClassification = SystemMetadata;
             TableRelation = "Source Code";
             //Code um festzustellen ob dieser Verkaufsauftrag aus dem Webshop kommt
         }
