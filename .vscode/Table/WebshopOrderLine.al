@@ -1,6 +1,6 @@
 table 50101 "Webshop Order Line"
 {
-    DataClassification = ToBeClassified;
+    DataClassification = CustomerContent;
 
     fields
     {
