@@ -12,10 +12,10 @@ page 50100 "Webshop Order Card"
         {
             group(General)
             {
-                field("Order No. for Sales"; Rec."Order No. for Sales")
-                {
-                    ToolTip = 'Specifies the value of the Order No. for Sales field.', Comment = '%';
-                }
+                // field("Order No. for Sales"; Rec."Order No. for Sales")
+                // {
+                //     ToolTip = 'Specifies the value of the Order No. for Sales field.', Comment = '%';
+                // }
                 field("Order No."; Rec."Order No.")
                 {
                     ToolTip = 'Specifies the value of the Order No. field.', Comment = '%';
@@ -99,8 +99,6 @@ page 50100 "Webshop Order Card"
 
                     begin
                         Rec.CheckStatus();
-                        // CurrPage.Update();
-                        // Message('Status has been updated to %1', Rec.Status);
                     end;
                 }
                 field("Payment Method"; Rec."Payment Method")
@@ -112,11 +110,11 @@ page 50100 "Webshop Order Card"
                     MultiLine = true;
                     ToolTip = 'Specifies the value of the Comment field.', Comment = '%';
                 }
-                field("Source Code"; Rec."Source Code")
-                {
-                    ToolTip = 'Specifies the value of the Source Code field.', Comment = '%';
-                    Importance = Additional;
-                }
+                // field("Source Code"; Rec."Source Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Source Code field.', Comment = '%';
+                //     Importance = Additional;
+                // }
             }
             part("Webshop Order Subpage"; "Webshop Order Subpage")
             {

@@ -12,8 +12,9 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
         Rec.TestField(Address);
         Rec.TestField("Post Code");
         Rec.TestField(Country);
-        Window.Open('#1#################################\\');//von Webshop Nos in Sales Nos zeigen lassen
+        Window.Open('#1#');
         GetNextNo();
+        CustomerInfo.Get(OrderHeader."Customer No.");
         SalesHeader."Document Type" := SalesHeader."Document Type"::Order;
         SalesHeader."No." := OrderHeader."Order No. for Sales";
         SalesHeader."Sell-to Customer No." := OrderHeader."Customer No.";
@@ -51,6 +52,10 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
         SalesHeader."Prepayment Due Date" := OrderHeader."Order Date";
         SalesHeader."VAT Reporting Date" := OrderHeader."Order Date";
         SalesHeader."Sell-to E-Mail" := OrderHeader."E-Mail";
+        // SalesHeader."Payment Terms Code" := CustomerInfo."Payment Terms Code";
+        Test := CustomerInfo."Payment Terms Code";
+        SalesHeader.Validate("Payment Terms Code", CustomerInfo."Payment Terms Code");
+        SalesHeader.Validate("Prepmt. Payment Terms Code");
         Rec."Sales Order Created" := true;
         SalesHeader.Insert();
         OrderLine.LockTable();
@@ -78,7 +83,7 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
                 SalesLine.Validate("Line Discount %", OrderLine.Discount);
                 SalesLine.Insert();
             until OrderLine.Next() = 0;
-        Window.Update(1, 'The Sales Order was created successfully.');
+        Window.Update(1, Text001);
         Window.Close();
         Rec.Delete();//verweist auf OnDelete in Table wird sonst nicht ausgefühert
         OpenSalesOrder();
@@ -97,6 +102,7 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
         SalesOrderCard: Page "Sales Order";
         NoSeriesMgt: Codeunit "No. Series";
         SalesSetup: Record "Sales & Receivables Setup";
+        Text001: Label 'The Sales Order was created successfully.';
 
     local procedure OpenSalesOrder()
     var

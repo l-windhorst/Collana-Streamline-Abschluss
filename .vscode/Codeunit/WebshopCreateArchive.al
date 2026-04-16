@@ -11,14 +11,12 @@ codeunit 50102 "Webshop Create Archive"
         Rec.TestField(Address);
         Rec.TestField("Post Code");
         Rec.TestField(Country);
-        Window.Open('#1#################################\\');//+ Text001, OrderHeader."Order No.");
+        Window.Open('#1#');//+ Text001, OrderHeader."Order No.");
         ArchiveHeader.TransferFields(OrderHeader);
         ArchiveHeader.Insert();
         OrderLine.LockTable();
         OrderLine.Reset();
         OrderLine.SetRange("Order No.", OrderHeader."Order No.");
-        if OrderLine.IsEmpty() then
-            Error('No order lines found for order %1', OrderHeader."Order No.");
         if OrderLine.FindSet() then
             repeat
                 ArchiveLine.TransferFields(OrderLine); //Beides möglich
@@ -36,8 +34,8 @@ codeunit 50102 "Webshop Create Archive"
                 // ArchiveLine."Total Price" := OrderLine."Total Price";
                 ArchiveLine.Insert();
             until OrderLine.Next() = 0;
-        Window.Update(1, StrSubstNo('%1 %2', Text002, OrderHeader."Order No."));
-        // Message(Text003, OrderHeader."Order No.");
+        Window.Update(1, Text002 + OrderHeader."Order No.");
+        Window.Close();
     end;
 
     var
@@ -46,7 +44,5 @@ codeunit 50102 "Webshop Create Archive"
         ArchiveHeader: Record "Webshop Archive Header";
         ArchiveLine: Record "Webshop Archive Line";
         Window: Dialog;
-        // Text001: Label 'The archive will be created';
-        Text002: Label 'The Archive has been created.';
-        Text003: Label 'You can find the archived order %1 in the Webshop Order Archive List.';
+        Text002: Label 'The Archive has been created with the No. ';
 }
