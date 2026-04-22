@@ -21,12 +21,4 @@ pageextension 50102 "Webshop Order Nos." extends "Sales & Receivables Setup"
             }
         }
     }
-
-    actions
-    {
-        // Add changes to page actions here
-    }
-
-    var
-        myInt: Integer;
 }

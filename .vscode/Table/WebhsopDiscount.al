@@ -1,20 +1,20 @@
 table 50104 "Webshop Order Discount"
 {
-    DataClassification = CustomerContent;
+    DataClassification = ToBeClassified;
 
     fields
     {
         field(1; "Discount Code No."; Code[20]) //Reine Nummernserie Inten
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(2; "Discount Code"; Code[20])//Lookup für anzeige
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(3; Discount; Integer)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
 
     }

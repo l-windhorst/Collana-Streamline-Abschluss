@@ -1,52 +1,50 @@
 table 50101 "Webshop Order Line"
 {
-    DataClassification = CustomerContent;
+    DataClassification = ToBeClassified;
 
     fields
     {
         field(1; "Order No."; Code[20])
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
             Editable = false;
         }
         field(2; "Line No."; Integer)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
             Editable = false;
 
         }
         field(3; "Item Name"; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
             TableRelation = "Item";
             trigger OnValidate()
 
             begin
                 if "Item Name" <> xRec."Item Name" then begin
-                    // CheckLineNo();
                     ItemInfo.Get("Item Name");
                     Rec."Item Description" := ItemInfo.Description;
                     Rec."Unit Price" := ItemInfo."Unit Price";
                     Rec.Vendor := ItemInfo."Vendor Name";
                     CheckItemInStock();
                     Validate(Quantity);
-                    // Rec.Modify();
                 end;
             end;
         }
         field(4; "Item Description"; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
             Editable = false;
         }
         field(5; "Unit Price"; Decimal)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
             Editable = false;
         }
         field(6; Quantity; Integer)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
             MinValue = 0;
 
             trigger OnValidate()
@@ -56,36 +54,36 @@ table 50101 "Webshop Order Line"
         }
         field(7; "In Stock"; Boolean)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
             Editable = false;
         }
         field(8; Vendor; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
             Editable = false;
         }
         field(9; Price; Decimal)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
             Editable = false;
         }
         field(10; "Discount Code"; Code[20])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(11; Discount; Integer)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
 
         }
         field(12; "Price After Discount"; Decimal)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
             Editable = false;
         }
         field(14; "Total Price"; Decimal)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
             Editable = false;
 
         }
@@ -99,16 +97,17 @@ table 50101 "Webshop Order Line"
         }
     }
 
-    fieldgroups
-    {
-        // Add changes to field groups here
-    }
+    trigger OnInsert()
+    begin
+        Rec."Line No." := GetNextLineNo();
+        GetBirthdayDiscount();
+    end;
 
-    var
-        ItemInfo: Record "Item";
-        Discount: Record "Webshop Order Discount";
-        Text001: Label 'You´ve changed the the Order Line. The Order Status is now "In Process".';
-        Text002: Label 'You can´t complete the Order because one line is missing quantity';
+    trigger OnModify()
+    begin
+        CalculatePriceAfterDiscount();
+        CheckOrderLine();
+    end;
 
     local procedure GetNextLineNo(): Integer
     var
@@ -248,26 +247,12 @@ table 50101 "Webshop Order Line"
             Message(Text001);
     end;
 
-    trigger OnInsert()
-    begin
-        Rec."Line No." := GetNextLineNo();
-        GetBirthdayDiscount();
-    end;
+    var
+        ItemInfo: Record "Item";
+        Discount: Record "Webshop Order Discount";
+        Text001: Label 'You´ve changed the the Order Line. The Order Status is now "In Process".';
+        Text002: Label 'You can´t complete the Order because one line is missing quantity';
 
-    trigger OnModify()
-    begin
-        CalculatePriceAfterDiscount();
-        CheckOrderLine();
-    end;
 
-    trigger OnDelete()
-    begin
-
-    end;
-
-    trigger OnRename()
-    begin
-
-    end;
 
 }

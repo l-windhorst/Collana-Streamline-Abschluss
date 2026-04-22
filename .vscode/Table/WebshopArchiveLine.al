@@ -1,60 +1,60 @@
 table 50103 "Webshop Archive Line"
 {
-    DataClassification = CustomerContent;
+    DataClassification = ToBeClassified;
 
     fields
     {
         field(1; "Order No."; Code[20])
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
         field(2; "Line No."; Integer)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
         field(3; "Item Name"; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(4; "Item Description"; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(5; "Unit Price"; Decimal)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
         field(6; Quantity; Integer)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(7; "In Stock"; Boolean)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
         field(8; Vendor; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(9; Price; Decimal)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
         field(10; "Discount Code"; Code[20])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(11; Discount; Integer)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(12; "Price After Discount"; Decimal)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(14; "Total Price"; Decimal)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
     }
 

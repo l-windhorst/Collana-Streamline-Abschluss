@@ -11,12 +11,4 @@ pageextension 50100 "Webshop Vendor Name" extends "Item Card"
             }
         }
     }
-
-    actions
-    {
-        // Add changes to page actions here
-    }
-
-    var
-        myInt: Integer;
 }

@@ -12,10 +12,6 @@ page 50100 "Webshop Order Card"
         {
             group(General)
             {
-                // field("Order No. for Sales"; Rec."Order No. for Sales")
-                // {
-                //     ToolTip = 'Specifies the value of the Order No. for Sales field.', Comment = '%';
-                // }
                 field("Order No."; Rec."Order No.")
                 {
                     ToolTip = 'Specifies the value of the Order No. field.', Comment = '%';
@@ -81,7 +77,6 @@ page 50100 "Webshop Order Card"
                 field(Birthday; Rec.Birthday)
                 {
                     ToolTip = 'Specifies the value of the Birthday field.', Comment = '%';
-                    Importance = Additional;
                 }
                 field("Overall Amount"; Rec."Overall Amount")
                 {
@@ -96,9 +91,10 @@ page 50100 "Webshop Order Card"
                     ToolTip = 'Specifies the value of the Status field.', Comment = '%';
                     trigger OnValidate()
                     var
-
                     begin
-                        Rec.CheckStatus();
+                        Rec.CheckLine();
+                        Rec.CheckLineQuantityiInStatus();
+                        Rec.CheckTotalPrice();
                     end;
                 }
                 field("Payment Method"; Rec."Payment Method")
@@ -110,11 +106,6 @@ page 50100 "Webshop Order Card"
                     MultiLine = true;
                     ToolTip = 'Specifies the value of the Comment field.', Comment = '%';
                 }
-                // field("Source Code"; Rec."Source Code")
-                // {
-                //     ToolTip = 'Specifies the value of the Source Code field.', Comment = '%';
-                //     Importance = Additional;
-                // }
             }
             part("Webshop Order Subpage"; "Webshop Order Subpage")
             {

@@ -35,10 +35,6 @@ page 50101 "Webshop Order List"
                 }
             }
         }
-        area(Factboxes)
-        {
-
-        }
     }
 
     actions

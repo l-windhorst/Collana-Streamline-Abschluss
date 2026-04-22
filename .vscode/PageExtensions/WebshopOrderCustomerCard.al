@@ -11,14 +11,4 @@ pageextension 50101 "Webshop Order Customer Card" extends "Customer Card"
             }
         }
     }
-
-
-
-    actions
-    {
-        // Add changes to page actions here
-    }
-
-    var
-        myInt: Integer;
 }

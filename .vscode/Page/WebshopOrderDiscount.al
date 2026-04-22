@@ -28,24 +28,5 @@ page 50106 "Webshop Order Discount"
                 }
             }
         }
-        area(Factboxes)
-        {
-
-        }
-    }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
-            }
-        }
     }
 }

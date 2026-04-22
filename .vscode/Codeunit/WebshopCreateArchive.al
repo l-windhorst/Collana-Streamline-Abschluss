@@ -11,7 +11,7 @@ codeunit 50102 "Webshop Create Archive"
         Rec.TestField(Address);
         Rec.TestField("Post Code");
         Rec.TestField(Country);
-        Window.Open('#1#');//+ Text001, OrderHeader."Order No.");
+        Window.Open('#1#');
         ArchiveHeader.TransferFields(OrderHeader);
         ArchiveHeader.Insert();
         OrderLine.LockTable();

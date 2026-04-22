@@ -22,7 +22,6 @@ codeunit 50101 "Webshop Confirm Post Yes No"
     local procedure CheckStatus()
 
     begin
-        // Message('Current Status is %1', OrderHeader.Status);
         if OrderHeader.Status <> OrderHeader.Status::"Order Completed" then
             Error(Text002, OrderHeader.Status);
     end;

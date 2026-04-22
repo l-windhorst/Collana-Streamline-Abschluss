@@ -11,10 +11,6 @@ page 50102 "Webshop Order Subpage"
         {
             repeater(GroupName)
             {
-                field("Order No."; Rec."Order No.")
-                {
-                    ToolTip = 'Specifies the value of the Order No. field.', Comment = '%';
-                }
                 field("Line No."; Rec."Line No.")
                 {
                     ToolTip = 'Specifies the value of the Line No. field.', Comment = '%';
@@ -77,17 +73,6 @@ page 50102 "Webshop Order Subpage"
         }
     }
 
-    actions
-    {
-        area(Processing)
-        {
-            action(Items)
-            {
-                RunObject = Page "Item List";
-                Image = Item;
-            }
-        }
-    }
     trigger OnAfterGetCurrRecord()//generell das bekommen des letzen Wertes in Total Price
                                   //löst aus immer wenn was Validiert wird
     begin

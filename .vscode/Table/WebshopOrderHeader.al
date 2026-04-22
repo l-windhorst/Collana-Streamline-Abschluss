@@ -1,16 +1,16 @@
 table 50100 "Webshop Order Header"
 {
-    DataClassification = CustomerContent;
+    DataClassification = ToBeClassified;
 
     fields
     {
         field(1; "Order No."; Code[20])
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
         field(2; "Customer No."; Code[20])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
             TableRelation = "Customer";
             trigger OnValidate()
             var
@@ -38,86 +38,87 @@ table 50100 "Webshop Order Header"
         }
         field(3; Customer; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
 
         }
         field(4; Address; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(5; "Address 2"; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(7; City; Text[50])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(8; "Post Code"; Text[20])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(9; Country; Text[50])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(10; Contact; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(11; "Order Date"; Date)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
         field(12; "E-Mail"; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(13; Birthday; Date)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(14; "Overall Amount"; Integer)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(15; "Total Price"; Decimal)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(16; "Status"; Enum "Webshop Status Enum")
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
         field(17; "Payment Method"; Text[50])
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
+            TableRelation = "Payment Method";
         }
         field(18; "Comment"; Text[255])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
 
         }
         field(19; "Source Code"; Code[20])
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
             Editable = false;
         }
         field(20; "Order No. for Sales"; Code[20])
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
         field(21; "Comment Available"; Boolean)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(22; "Contact Code"; Code[20])//Wenn contact ausgewählt Lookup
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
         field(23; "Sales Order Created"; Boolean)
         {
-            DataClassification = SystemMetadata;
+            DataClassification = ToBeClassified;
         }
     }
 
@@ -128,15 +129,6 @@ table 50100 "Webshop Order Header"
             Clustered = true;
         }
     }
-
-    fieldgroups
-    {
-        // Add changes to field groups here
-    }
-
-    var
-        myInt: Integer;
-
     trigger OnInsert()
     begin
         GetWebOrderNos();
@@ -186,23 +178,38 @@ table 50100 "Webshop Order Header"
             Rec."Comment Available" := false;
     end;
 
-    procedure CheckStatus()
+    procedure CheckLineQuantityiInStatus()
     var
-        OrderLine: Record "Webshop Order Line";
+
     begin
         if Rec.Status = Rec.Status::"Order Completed" then begin
             OrderLine.Reset();
+
             OrderLine.SetRange("Order No.", Rec."Order No.");
             OrderLine.SetRange(Quantity, 0);
             if OrderLine.FindFirst then
                 repeat
                     if OrderLine.Quantity = 0 then
                         Error(Text003);
-                until OrderLIne.Next() = 0;
-            if not Confirm(Text001, false) then begin
-                Rec.Status := xRec.Status;
-            end;
+                until OrderLine.Next() = 0;
         end;
+    end;
+
+    procedure CheckTotalPrice()
+    var
+        Test: Integer;
+    begin
+        if Rec.Status = Rec.Status::"Order Completed" then begin
+            if Rec."Total Price" = 0 then
+                Error(Text001);
+        end;
+    end;
+
+    procedure CheckLine()
+    begin
+        OrderLine.Reset();
+        OrderLine.SetRange("Order No.", Rec."Order No.");
+        if OrderLine.IsEmpty then Error(Text004);
     end;
 
     local procedure CheckOrderHeader()
@@ -215,20 +222,10 @@ table 50100 "Webshop Order Header"
                 Rec.Modify();
                 IsChanged := true;
             end;
-            if Rec.Customer <> xRec.Customer then begin
-                Rec.Status := Rec.Status::"in Process";
-                Rec.Modify();
-                IsChanged := true;
-            end;
-            if Rec.Address <> xRec.Address then begin
-                Rec.Status := Rec.Status::"in Process";
-                Rec.Modify();
-                IsChanged := true;
-            end;
         end;
-
         if IsChanged = true then
             Message(Text002);
+
     end;
 
     local procedure DeleteOrder()
@@ -246,10 +243,12 @@ table 50100 "Webshop Order Header"
 
 
     var
+        OrderLine: Record "Webshop Order Line";
         NoSeriesMgt: Codeunit "No. Series";
         SalesSetup: Record "Sales & Receivables Setup";
         NoSeries: Record "No. Series";
-        Text001: Label 'Did you check that the Information in Order are correct?';
+        Text001: Label 'You can´t set the Status because the Total Price has no value';
         Text002: Label 'You´ve changed the Order the Order Status is now "In Process".';
-        Text003: Label 'You can´t complete the Order because one line is missing quantity';
+        Text003: Label 'You can´t complete the Order because one or more lines are missing quantity';
+        Text004: Label 'You can´t complete an empty Order';
 }

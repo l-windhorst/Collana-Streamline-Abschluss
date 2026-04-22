@@ -39,10 +39,6 @@ page 50105 "Webshop Order Archive List"
                 }
             }
         }
-        area(Factboxes)
-        {
-
-        }
     }
 
     actions

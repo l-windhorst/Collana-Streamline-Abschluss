@@ -26,24 +26,5 @@ page 50107 "Webshop Discount Lookup"
                 }
             }
         }
-        area(Factboxes)
-        {
-
-        }
-    }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
-            }
-        }
     }
 }

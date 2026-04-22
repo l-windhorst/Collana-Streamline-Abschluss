@@ -17,12 +17,4 @@ pageextension 50104 "Webshop Order Source Code" extends "Source Code Setup"
             }
         }
     }
-
-    actions
-    {
-        // Add changes to page actions here
-    }
-
-    var
-        myInt: Integer;
 }

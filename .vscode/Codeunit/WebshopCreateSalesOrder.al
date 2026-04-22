@@ -1,4 +1,4 @@
-codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order erstellen
+codeunit 50100 "Webshop Create Sales Order"
 {
     TableNo = "Webshop Order Header";
     trigger OnRun()
@@ -13,31 +13,11 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
         Rec.TestField("Post Code");
         Rec.TestField(Country);
         Window.Open('#1#');
-        GetNextNo();
         CustomerInfo.Get(OrderHeader."Customer No.");
         SalesHeader."Document Type" := SalesHeader."Document Type"::Order;
         SalesHeader."No." := OrderHeader."Order No. for Sales";
         SalesHeader."Sell-to Customer No." := OrderHeader."Customer No.";
         SalesHeader.Validate("Sell-to Customer Name", OrderHeader.Customer);
-        // SalesHeader."Bill-to Customer No." := OrderHeader.Customer;
-        // SalesHeader."Ship-to Name" := OrderHeader.Customer;
-        // SalesHeader."Sell-to Customer Name" := OrderHeader.Customer;
-        SalesHeader."Bill-to Address" := OrderHeader.Address;
-        SalesHeader."Ship-to Address" := OrderHeader.Address;
-        SalesHeader."Sell-to Address" := OrderHeader.Address;
-        SalesHeader."Bill-to Address 2" := OrderHeader."Address 2";
-        SalesHeader."Ship-to Address 2" := OrderHeader."Address 2";
-        SalesHeader."Sell-to Address 2" := OrderHeader."Address 2";
-        SalesHeader."Bill-to City" := OrderHeader.City;
-        SalesHeader."Ship-to City" := OrderHeader.City;
-        SalesHeader."Sell-to City" := OrderHeader.City;
-        SalesHeader."Bill-to Post Code" := OrderHeader."Post Code";
-        SalesHeader."Ship-to Post Code" := OrderHeader."Post Code";
-        SalesHeader."Sell-to Post Code" := OrderHeader."Post Code";
-        SalesHeader."VAT Country/Region Code" := OrderHeader.Country;
-        SalesHeader."Bill-to Country/Region Code" := OrderHeader.Country;
-        SalesHeader."Sell-to Country/Region Code" := OrderHeader.Country;
-        SalesHeader."Ship-to Country/Region Code" := OrderHeader.Country;
         SalesHeader."Bill-to Contact" := OrderHeader.Contact;
         SalesHeader."Ship-to Contact" := OrderHeader.Contact;
         SalesHeader."Sell-to Contact" := OrderHeader.Contact;
@@ -52,7 +32,6 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
         SalesHeader."Prepayment Due Date" := OrderHeader."Order Date";
         SalesHeader."VAT Reporting Date" := OrderHeader."Order Date";
         SalesHeader."Sell-to E-Mail" := OrderHeader."E-Mail";
-        // SalesHeader."Payment Terms Code" := CustomerInfo."Payment Terms Code";
         Test := CustomerInfo."Payment Terms Code";
         SalesHeader.Validate("Payment Terms Code", CustomerInfo."Payment Terms Code");
         SalesHeader.Validate("Prepmt. Payment Terms Code");
@@ -103,25 +82,16 @@ codeunit 50100 "Webshop Create Sales Order"//Aus Webshop Order eine Sales Order 
         NoSeriesMgt: Codeunit "No. Series";
         SalesSetup: Record "Sales & Receivables Setup";
         Text001: Label 'The Sales Order was created successfully.';
+        Text002: Label 'Do you want to open the created Sales Order now?';
 
     local procedure OpenSalesOrder()
     var
     begin
-        if Confirm('Do you want to open the created Sales Order now?', true) then begin
+        if Confirm(Text002, true) then begin
+            SalesHeader.Reset();
             SalesHeader.SetRange("No.", SalesHeader."No.");
             if SalesHeader.FindFirst() then
                 PAGE.Run(PAGE::"Sales Order", SalesHeader);
-        end;
-    end;
-
-    local procedure GetNextNo()
-    var
-    begin
-        if OrderHeader."Order No. for Sales" = '' then begin
-            OrderHeader.TestField("Order No. for Sales");
-            OrderHeader."Order No. for Sales" := NoSeriesMgt.GetNextNo(SalesSetup."Webshop Order for Sales Nos.");
-            OrderHeader.Modify();
-            Commit();
         end;
     end;
 }
