@@ -20,7 +20,6 @@ codeunit 50101 "Webshop Confirm Post Yes No"
         OrderHeader: Record "Webshop Order Header";
 
     local procedure CheckStatus()
-
     begin
         if OrderHeader.Status <> OrderHeader.Status::"Order Completed" then
             Error(Text002, OrderHeader.Status);

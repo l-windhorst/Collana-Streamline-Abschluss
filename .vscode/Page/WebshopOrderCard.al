@@ -12,6 +12,7 @@ page 50100 "Webshop Order Card"
         {
             group(General)
             {
+
                 field("Order No."; Rec."Order No.")
                 {
                     ToolTip = 'Specifies the value of the Order No. field.', Comment = '%';
